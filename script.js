@@ -9,8 +9,6 @@ $(function(){
             $("#inputUser").val("");
         }
     });
-    //get user
-    $("#user").text(localStorage.getItem("username"));
     //modal 
     $("#inputUser").on('keyup', function (key) {
         if ($("#inputUser").val().length > 0 ){
@@ -30,7 +28,9 @@ $(function(){
             socket.emit("add username", {"username":username});
         }     
     });
-    
+    socket.on('add username', data=> {
+        localStorage.setItem('username',data["username"]);
+    });
 
     //message
     $("#sendMsg").on("click", function(){
@@ -64,17 +64,3 @@ $(function(){
     
 }
 )
-//function CombineDateAndTime(date, time) {
-    //var timeString = time.getHours() + ':' + time.getMinutes();
-    //var ampm = time.getHours() >= 12 ? 'PM' : 'AM';
-    //var month = date.getMonth() + 1; // Jan is 0, dec is 11
-    //var day = date.getDate();
-    //var dateString = '' + year + '-' + month + '-' + day;
-    //var datec = dateString + 'T' + timeString;
-    //var combined = new Date(datec);
-    //current.toLocaleString()
-    //document.getElementById("time").innerHTML = combined;
-    //var datetimeNow = new Date();
-    //var hourNow = datetimeNow.getHours();
-    //var minuteNow = datetimeNow.getMinutes();
-//};
