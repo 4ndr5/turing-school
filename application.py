@@ -15,11 +15,11 @@ def index():
 def message(data):
 
     print(data)
-    send(data, broadcast=True)
+    send(data,broadcast=True)
 
 @socketio.on("add username")
 def add_username(data):
     username=""
     username= data["username"]
     print(username)
-    socketio.emit("add username", {"username":username})
+    emit("add username", {"username":username})
