@@ -13,8 +13,9 @@ def index():
 
 @socketio.on("message")
 def message(data):
-
-    print(data)
+    print("\n{data} \n")
+    print(data["username"])
+    print(data["msg"])
     send(data,broadcast=True)
 
 @socketio.on("add username")

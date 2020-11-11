@@ -36,31 +36,33 @@ $(function(){
     $("#sendMsg").on("click", function(){
         console.log("Message sent")
         var msg= $("#message").val()
-        socket.send(msg)
+        var user = localStorage.username
+        socket.send({"msg": msg, "username" : user})
     });
     socket.on("message", data =>{
        const p = document.createElement("p")
-       p.innerHTML = data;
+       p.innerHTML = data.msg;
        $(".display-message").append(p)
        const span = document.createElement("span")
-       span.innerHTML = localStorage.getItem("username");
+       span.innerHTML = data.username;
        $(".display-message").append(span)
+       const d = new Date();	
+       dHours = '  sent: ' + d.getHours() + ':' + d.getMinutes() + ' On: ' + d.getUTCFullYear() + '/' + d.getUTCMonth() + '/' + d.getDate();	
+       $(".display-message").append(dHours)
     });
-    //date
-    //var d= new Date();
-    //document.getElementById("time").innerHTML = d;
-    var tim= new Date();
-    var mon= tim.getMonth();
-    mon= mon.toString();
-    var day = tim.getDay();
-    day= day.toString();
-    var h= tim.getHours();
-    h=h.toString();
-    var min= tim.getMinutes();
-    min= min.toString();
-    var timex= mon + day + h+ min;
-    document.getElementById("time").innerHTML = timex;
-    console.log(timex)
-    
+   
+ 
+    //click btn func
+    //$("#message").on('keyup', function (key) {	
+      //  if ($("#message").val().length > 0 ){	
+        //    $("#sendMsg").attr("disabled", false);	
+          //  if (key.keyCode==13) {	
+            //    $("#sendMsg").click();	
+            //}	
+       // }	
+        //else {	
+          //  $("#sendMsg").attr("disabled", true);	
+        //}	
+    //});
 }
 )
