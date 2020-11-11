@@ -1,6 +1,6 @@
 $(function(){
     console.log("JS is connected")
-// Checking the push
+
     var socket= io();
     socket.on ("connect", function(){
         if (!localStorage.getItem("username")){
@@ -10,7 +10,7 @@ $(function(){
         }
     });
     //get user
-    $("#user").text(localStorage.username);
+    $("#user").text(localStorage.getItem("username"));
     //modal 
     $("#inputUser").on('keyup', function (key) {
         if ($("#inputUser").val().length > 0 ){
@@ -25,69 +25,56 @@ $(function(){
     });
     
     $("#modalBtn").on("click", function(){
-        console.log('i clicked')
         if (!localStorage.getItem("username")){
             var username= $("#inputUser").val();
             socket.emit("add username", {"username":username});
-            console.log(username)
         }     
     });
     
 
-    //UPDATED
-    // MESSAGE SEND UPDATED, SEND WITH A KEY
-// message
-    $("#message").on('keyup', function (key) {
-        if ($("#message").val().length > 0 ){
-            $("#sendMsg").attr("disabled", false);
-            if (key.keyCode==13) {
-                $("#sendMsg").click();
-            }
-        }
-        else {
-            $("#sendMsg").attr("disabled", true);
-        }
-    });
-
+    //message
     $("#sendMsg").on("click", function(){
-        // console.log("Message sent")
-        var msg = $("#message").val()
-        var user = localStorage.username
-        socket.send({'msg':msg, 'username':user})
-        
-    // UPDATED
-    // MESSAGE VALUE IS CLEARED AFTER SENDING
-    $("#message").val("");
-
+        console.log("Message sent")
+        var msg= $("#message").val()
+        socket.send(msg)
     });
     socket.on("message", data =>{
-
-       console.log(data)
        const p = document.createElement("p")
-       p.innerHTML = data.msg;
+       p.innerHTML = data;
        $(".display-message").append(p)
-
-       const p2 = document.createElement("p")
-       p2.innerHTML = data.username;
-       $(".display-message").append(p2)
-    //    console.log(data.username)
-
-// UPDATED
-// TAKE THE TIME AND DATE PART
-            // date
-        const d = new Date();
-        dHours = 'Time sent: ' + d.getHours() + ':' + d.getMinutes() + ' On: ' + d.getUTCFullYear() + '/' + d.getUTCMonth() + '/' + d.getDate();
-        $(".display-message").append(dHours)
+       const span = document.createElement("span")
+       span.innerHTML = localStorage.getItem("username");
+       $(".display-message").append(span)
     });
-
-    // display username
-    socket.on("add username", data =>{
-        console.log(data)
-        localStorage.setItem('username', data["username"])
-        $("#user").text(localStorage.getItem('username'));
-
-    });
-
+    //date
+    //var d= new Date();
+    //document.getElementById("time").innerHTML = d;
+    var tim= new Date();
+    var mon= tim.getMonth();
+    mon= mon.toString();
+    var day = tim.getDay();
+    day= day.toString();
+    var h= tim.getHours();
+    h=h.toString();
+    var min= tim.getMinutes();
+    min= min.toString();
+    var timex= mon + day + h+ min;
+    document.getElementById("time").innerHTML = timex;
+    console.log(timex)
     
 }
 )
+//function CombineDateAndTime(date, time) {
+    //var timeString = time.getHours() + ':' + time.getMinutes();
+    //var ampm = time.getHours() >= 12 ? 'PM' : 'AM';
+    //var month = date.getMonth() + 1; // Jan is 0, dec is 11
+    //var day = date.getDate();
+    //var dateString = '' + year + '-' + month + '-' + day;
+    //var datec = dateString + 'T' + timeString;
+    //var combined = new Date(datec);
+    //current.toLocaleString()
+    //document.getElementById("time").innerHTML = combined;
+    //var datetimeNow = new Date();
+    //var hourNow = datetimeNow.getHours();
+    //var minuteNow = datetimeNow.getMinutes();
+//};
