@@ -39,24 +39,28 @@ $(function(){
         socket.send(msg)
     });
     socket.on("message", data =>{
-       console.log(data)
        const p = document.createElement("p")
        p.innerHTML = data;
        $(".display-message").append(p)
+       const span = document.createElement("span")
+       span.innerHTML = localStorage.getItem("username");
+       $(".display-message").append(span)
     });
-
-    //display username
-    //socket.on("add username", data =>{
-        //console.log(data)
-        //const name = document.createElement("h3")
-        //const name=localStorage.getItem("username");
-        //name.innerHTML = data;
-        //$(".display-message").append(name)
-        //$("#user").text(localStorage.username)        
-    //});
     //date
-    var d = new Date();
-    document.getElementById("time").innerHTML = d;
+    //var d= new Date();
+    //document.getElementById("time").innerHTML = d;
+    var tim= new Date();
+    var mon= tim.getMonth();
+    mon= mon.toString();
+    var day = tim.getDay();
+    day= day.toString();
+    var h= tim.getHours();
+    h=h.toString();
+    var min= tim.getMinutes();
+    min= min.toString();
+    var timex= mon + day + h+ min;
+    document.getElementById("time").innerHTML = timex;
+    console.log(timex)
     
 }
 )
@@ -68,6 +72,9 @@ $(function(){
     //var dateString = '' + year + '-' + month + '-' + day;
     //var datec = dateString + 'T' + timeString;
     //var combined = new Date(datec);
-
+    //current.toLocaleString()
     //document.getElementById("time").innerHTML = combined;
+    //var datetimeNow = new Date();
+    //var hourNow = datetimeNow.getHours();
+    //var minuteNow = datetimeNow.getMinutes();
 //};
