@@ -5,7 +5,6 @@ $(function(){
     socket.on ("connect", function(){
         if (!localStorage.getItem("username")){
             $("#myModal").modal({backdrop: "static" , keyboard: false});
-           // $(".modal-title").text("Enter your Username: ");
             $("#inputUser").val("");
         }
     });
@@ -32,13 +31,14 @@ $(function(){
         localStorage.setItem('username',data["username"]);
     });
 
-    //message
+    //specify data sent to python
     $("#sendMsg").on("click", function(){
         console.log("Message sent")
         var msg= $("#message").val()
         var user = localStorage.username
         socket.send({"msg": msg, "username" : user})
     });
+    //send data to python
     socket.on("message", data =>{
        const p = document.createElement("p")
        p.innerHTML = data.msg;
@@ -47,11 +47,12 @@ $(function(){
        span.innerHTML = data.username;
        $(".display-message").append(span)
        const d = new Date();	
-       dHours = '  sent: ' + d.getHours() + ':' + d.getMinutes() + ' On: ' + d.getUTCFullYear() + '/' + d.getUTCMonth() + '/' + d.getDate();	
+       dHours = '  sent: ' + d.getHours() + ':' + d.getMinutes() + '  ' + d.getUTCFullYear() + '/' + d.getUTCMonth() + '/' + d.getDate();	
        $(".display-message").append(dHours)
+       //document.getElementById("modalBtn").addEventListener("click", );
+       //displayData= data;
     });
-   
- 
+    
     //click btn func
     //$("#message").on('keyup', function (key) {	
       //  if ($("#message").val().length > 0 ){	
